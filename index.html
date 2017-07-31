@@ -1,0 +1,54 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+
+<body>
+<div style="margin: 0 auto;text-align: center;">
+    <a href="firstPage.php" class="typeone">pageOne</a>
+    <a href="another.php" data-pjax="#container">PageTwo</a>
+    <input type="button" id="type3" value="Page3">
+</div>
+<div id="container" style="margin: 0 auto;background-color: #00a7d0;text-align: center;padding-top:150px;color: #fff;width: 80%;height: 200px;">
+
+</div>
+<div id="load" style="display: none;margin: 0 auto;width: 50%;height: 100px;background-color: #00a65a;text-align: center;line-height: 100px;" >loading****</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.pjax/2.0.1/jquery.pjax.min.js"></script>
+<script>
+//$(document).pjax('a','#container');
+    $(function () {
+//        方式一 按钮父节点监听事件
+        $(document).pjax('a.typeone','#container');
+//        加载内容到指定容器
+        $.pjax({
+            url:'third.php',
+            container:'#container'
+        })
+//         方式二 直接对按钮监听，可以不用指定容器，使用按钮的data-pjax属性值查找容器
+        $('a[data-pjax]').pjax();
+//        方式三 常规的点击事件监听方式
+        $('#type3').on('click',function () {
+            $.pjax({
+                url:'third.php',
+                container:'#container'
+            })
+        })
+    })
+$(document).on('pjax:send', function() {
+    document.write('ssssss');
+        console.log('start')
+})
+$(document).on('pjax:complete', function() {
+//    $('#loading').hide()
+    console.log('complete')
+})
+//    注意：跨域会引起pjax失效
+</script>
+</body>
+</html>
